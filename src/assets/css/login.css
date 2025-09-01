@@ -1,0 +1,112 @@
+/* ===== LOGIN – Azul Noche ===== */
+.login{
+  display:grid;
+  place-items:center;
+  min-height:calc(100vh - var(--nav-h));
+  padding:2rem;
+}
+
+.login .card{
+  background: rgba(4, 6, 32, 0.9);           /* azul noche translúcido */
+  border:1px solid rgba(17, 21, 40, 0.9);   /* borde azulado */
+  box-shadow:0 0 24px rgba(44, 70, 190, .35);
+  border-radius:50px;
+  padding:2rem;
+  width:80%;
+  max-width:500px;
+  text-align:center;
+}
+
+/* Titulos y meta */
+.login h1{
+  margin:0 0 .5rem 0;
+  color:#E9ECFF;
+}
+.login small{
+  display:block;
+  color:#B9C0FF;
+  opacity:.9;
+  margin-bottom:1rem;
+}
+
+/* Formulario */
+.login form{
+  display:grid;
+  gap:1rem;
+  margin-top:1rem;
+  text-align:left;
+}
+.login label{
+  display:flex;
+  flex-direction:column;
+  gap:.35rem;
+  font-size:.95rem;
+  color:#CAD0FF;
+}
+
+/* Inputs */
+.login input{
+  width:100%;
+  padding:.65rem .75rem;
+  background:#0E134A;                  /* azul noche profundo */
+  border:1px solid #2B3BBF;            /* borde azul */
+  color:#E9ECFF;                       /* texto claro */
+  border-radius:6px;
+  transition:border-color .2s, box-shadow .2s, background .2s;
+}
+.login input::placeholder{
+  color:#B7BEFA;
+  opacity:.85;
+}
+.login input:focus{
+  outline:none;
+  background:#0C1142;
+  border-color:#5E6CFF;
+  box-shadow:0 0 0 3px rgba(94,108,255,.25);
+}
+
+/* Botón */
+.login button{
+  padding:.7rem .9rem;
+  background:#152099;                  /* azul intenso */
+  border:1px solid #2E3CDA;
+  color:#fff;
+  cursor:pointer;
+  border-radius:6px;
+  text-transform:uppercase;
+  font-weight:800;
+  letter-spacing:.06em;
+  transition:transform .15s, box-shadow .25s, background .25s, border-color .25s;
+}
+.login button:hover{
+  background:#1E2AF0;
+  border-color:#6E79FF;
+  box-shadow:0 0 14px rgba(110,121,255,.55);
+  transform: translateY(-1px);
+}
+.login button:active{
+  transform: translateY(0);
+}
+
+/* Error */
+.login .err{
+  color:#FF6E6E;
+  margin-top:1rem;
+  text-align:center;
+  font-family:monospace;
+  font-size:.95rem;
+}
+
+/* Icono (Element Plus) */
+.login .login-icon{
+  display:block;
+  margin:0 auto .85rem;
+  color:#AEB8FF;
+  filter:drop-shadow(0 0 10px rgba(120,140,255,.6));
+  opacity:.95;
+
+}
+.login .login-icon svg{
+  fill:currentColor;
+  text-decoration: none;
+}

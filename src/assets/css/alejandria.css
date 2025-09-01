@@ -1,0 +1,58 @@
+.cards{
+  /* grid o flex, como tengas; no importa mientras permita overlap */
+  display:grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px,1fr));
+  gap:1.5rem;
+  padding:2rem;
+  position: relative;   /* base para z-index/overlays */
+  isolation: isolate;   /* evita que filtros se mezclen raro */
+}
+
+.card{
+  position: relative;               /* contenedor del overlay */
+  min-height: 82px;                 /* alto del header */
+  background: rgba(15,16,22,.9);
+  border:1px solid rgba(255,255,255,.08);
+  border-radius:12px;
+  box-shadow: 0 10px 24px rgba(0,0,0,.5);
+  overflow: visible;                /* 👈 deja salir el overlay */
+}
+
+.card-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1rem 1.25rem; cursor:pointer; user-select:none;
+}
+.card-header h2{ margin:0; font-size:1.05rem; color:#ffae00; }
+.arrow{ transition: transform .25s ease; }
+.arrow.open{ transform: rotate(180deg); }
+
+/* --- Overlay que “cae”: no afecta layout --- */
+.card-body{
+  position: absolute;
+  left: -1px; right: -1px;          /* que el overlay iguale el ancho + borde */
+  top: 64px;                        /* altura aprox. del header */
+  z-index: 2;
+  background: rgba(20,22,28,.96);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius: 0 0 12px 12px;
+  padding: 0 1.25rem 1.25rem;
+  color:#ddd; line-height:1.55;
+
+  /* animación de despliegue */
+  transform-origin: top;
+  animation: drop-in .28s ease forwards;
+  box-shadow: 0 16px 40px rgba(0,0,0,.65);
+}
+
+/* cuando se cierra, puedes animar si quieres */
+.card:not(.open) .card-body{ animation: drop-out .22s ease forwards; }
+
+@keyframes drop-in{
+  from{ transform: scaleY(0.85); opacity: 0; }
+  to  { transform: scaleY(1);    opacity: 1; }
+}
+@keyframes drop-out{
+  from{ transform: scaleY(1);    opacity: 1; }
+  to  { transform: scaleY(0.85); opacity: 0; }
+}
+.card-body{ max-height: 320px; overflow:auto; }

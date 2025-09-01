@@ -1,0 +1,8 @@
+/* Globales */
+@import '/src/assets/css/global.css';
+
+/* Componentes / secciones */
+@import '/src/assets/css/login.css';
+@import '/src/assets/css/home.css';
+@import '/src/assets/css/alejandria.css';
+@import '/src/assets/css/error.css';

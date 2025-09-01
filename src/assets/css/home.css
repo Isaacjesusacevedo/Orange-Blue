@@ -1,0 +1,189 @@
+/* ====== Variables de ambiente cósmico ====== */
+:root {
+  --ink: #0b0c10;
+  --ink-2: #13141a;
+  --border: #0d0e12;
+  --glow: #ff6a00;            /* resplandor anaranjado antinatural */
+  --ghost: rgba(255, 106, 0, .12);
+  --line: rgba(255,255,255,.12);
+  --slot-size: clamp(58px, 6.2vw, 78px);
+  --rail-gap: clamp(18px, 2.2vw, 26px);
+  --frame-pad: clamp(10px, 1.8vw, 18px);
+}
+
+/* ====== Lienzo completo ====== */
+.outer-frame{
+  position: relative;
+  min-height: 100dvh;
+  padding: var(--frame-pad);
+  display: grid;
+  grid-template-columns: var(--slot-size) 1fr var(--slot-size);
+  grid-template-rows: 1fr;
+  background:
+    radial-gradient(80% 120% at 100% 50%, var(--ghost), transparent 60%),
+    linear-gradient(180deg, var(--ink), var(--ink-2));
+  border: 3px solid #1b1c22;
+  box-shadow:
+    inset 0 0 0 2px var(--border),
+    0 0 0 1px #000,
+    0 0 42px rgba(255,106,0,.08);
+}
+
+/* ====== Cartel superior izquierdo ====== */
+.status-badge{
+  position: absolute;
+  top: clamp(8px, 1.2vw, 14px);
+  left: clamp(8px, 1.2vw, 14px);
+  padding: .6rem .8rem;
+  background: #0f1016;
+  color: #d7d7d7;
+  border: 2px solid #2a2b33;
+  box-shadow:
+    0 0 0 2px #0a0b10,
+    0 6px 16px rgba(0,0,0,.35),
+    0 0 14px inset rgba(255,106,0,.15);
+  font-size: .82rem;
+  line-height: 1.25;
+  letter-spacing: .2px;
+  text-align: center;
+}
+
+/* ====== Rieles laterales ====== */
+.rail{
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: var(--rail-gap);
+}
+.rail--left{ grid-column: 1; }
+.rail--right{ grid-column: 3; }
+
+/* ====== Slots ====== */
+.slot{
+  width: var(--slot-size);
+  height: var(--slot-size);
+  border: 3px solid #30313b;
+  background: #0f1118;
+  display: grid;
+  place-items: center;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease, border-color .15s ease;
+  box-shadow:
+    0 0 0 2px #0a0b10,
+    0 4px 12px rgba(0,0,0,.45);
+  position: relative;
+  isolation: isolate;
+}
+.slot:hover{
+  transform: translateY(-2px);
+  border-color: #3a3c47;
+  box-shadow:
+    0 0 0 2px #0a0b10,
+    0 6px 18px rgba(0,0,0,.55),
+    0 0 18px rgba(255,106,0,.18);
+}
+.slot:focus-visible{
+  outline: none;
+  box-shadow:
+    0 0 0 2px #0a0b10,
+    0 0 0 4px rgba(255,106,0,.45),
+    0 8px 22px rgba(0,0,0,.55);
+  border-color: var(--glow);
+}
+.slot img{
+  width: 62%;
+  height: 62%;
+  object-fit: contain;
+  filter: drop-shadow(0 1px 0 rgba(0,0,0,.35));
+}
+
+/* ====== Centro ====== */
+.center-wrap{
+  grid-column: 2;
+  display: grid;
+  place-items: center;
+}
+.center-panel{
+  width: min(78vmin, 780px);
+  aspect-ratio: 1/1;
+  border: 3px solid #2f3039;
+  background:
+    linear-gradient(180deg, rgba(255,106,0,.03), transparent 35%),
+    radial-gradient(120% 140% at 70% 30%, rgba(255,106,0,.05), transparent 60%),
+    #0f1118;
+  display: grid;
+  place-items: center;
+  box-shadow:
+    inset 0 0 0 2px #0a0b10,
+    0 0 24px rgba(255,106,0,.09);
+  position: relative;
+}
+.center-panel::after{
+  /* ligero parpadeo para atmósfera cósmica */
+  content:"";
+  position:absolute;
+  inset: -2px;
+  border: 2px solid rgba(255,106,0,.08);
+  mix-blend-mode: screen;
+  animation: pulse 3.8s ease-in-out infinite alternate;
+  pointer-events: none;
+}
+@keyframes pulse{
+  0%{ opacity:.25; filter: blur(0px); }
+  100%{ opacity:.6; filter: blur(1.2px); }
+}
+.remember{
+  color: #dcdcdc;
+  font-weight: 700;
+  letter-spacing: .02em;
+  font-size: clamp(1.15rem, 2.4vw, 1.6rem);
+  text-shadow: 0 1px 0 #000, 0 0 18px rgba(255,106,0,.18);
+}
+
+@media (max-width: 915px){
+  .outer-frame{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto 1fr auto;
+    gap: var(--rail-gap);
+  }
+  .rail--left{ grid-column: 1; grid-row: 1; }
+  .center-wrap{ grid-column: 1; grid-row: 3; }
+  .rail--right{ grid-column: 1; grid-row: 4; }
+  .center-panel{ width: min(86vmin, 680px); }
+  .status-badge{ position: static; margin-bottom: .4rem; justify-self: start; }
+}
+.slot__btn{
+  appearance: none;      /* quita estilo nativo */
+  border: 1px solid rgba(255,255,255,.08);
+  background: linear-gradient(180deg, rgba(24,24,28,.9), rgba(12,12,16,.9));
+  width: 64px; height: 64px;
+  display: grid; place-items: center;
+  cursor: pointer;
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.8) inset,
+    0 0 0 2px rgba(120,90,255,.08),
+    0 10px 22px rgba(0,0,0,.55);
+  transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
+}
+
+.slot__btn:hover{
+  transform: translateY(-1px);
+  border-color: rgba(255,140,80,.35);
+  box-shadow:
+    0 0 0 1px rgba(0,0,0,.8) inset,
+    0 0 18px rgba(255,120,40,.18),
+    0 14px 28px rgba(0,0,0,.6);
+}
+
+/* Icono de Element Plus: tamaño y color “espectral” */
+.el-icon-xl{
+  font-size: 32px;       /* o 55px si lo prefieres grande */
+  color: #7c3aed;        /* púrpura */
+  filter: drop-shadow(0 0 6px rgba(124,58,237,.45));
+}
+
+/* Si tienes un <a> en algún otro sitio del riel, neutralízalo */
+.rail a{
+  text-decoration: none;
+  color: inherit;
+}

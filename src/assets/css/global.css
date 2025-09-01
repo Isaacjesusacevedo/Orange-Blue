@@ -1,0 +1,38 @@
+body {
+  font-family: "Trebuchet MS";
+  color: #fff;
+  line-height: 1.5;
+  text-transform: uppercase;
+
+  /* Degradado azul oscuro */
+  background: radial-gradient(1200px 800px at 50% -20%, #554e42 0%, transparent 70%),
+              linear-gradient(#090a17, #101022 70%, #0b0a08 100%);
+  background-attachment: fixed;
+  overflow: hidden;
+  min-height: 100vh;
+}
+
+/* Capas de niebla */
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: -10%;
+  height: 50%;
+  pointer-events: none;
+  background: radial-gradient(80% 100% at 50% 100%, rgba(200, 200, 255, 0.08), transparent 70%);
+  filter: blur(30px);
+  animation: fogMove 60s linear infinite;
+}
+body::after {
+  animation-direction: reverse;
+  opacity: 0.7;
+}
+
+@keyframes fogMove {
+  0% { transform: translateX(0); }
+  50% { transform: translateX(4%); }
+  100% { transform: translateX(0); }
+}
