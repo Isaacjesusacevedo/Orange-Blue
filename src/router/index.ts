@@ -1,9 +1,9 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 
 const router = createRouter({
-  history: createWebHistory(import.meta.env.BASE_URL),
+  history: createWebHashHistory(),
   routes: [
     { path: '/login', name: 'login', component: LoginView },
 
@@ -13,7 +13,6 @@ const router = createRouter({
       name: 'documentos',
       component: () => import('../views/DocumentosView.vue'),
       meta: { requiresAuth: true }
-
     },
     {
       path: '/video',
@@ -52,8 +51,7 @@ const router = createRouter({
       meta: { requiresAuth: true }
     },
     { path: '/:pathMatch(.*)*', redirect: '/login' }
-  ],
-
+  ]
 })
 
 // 🔒 guardia del umbral
