@@ -1,58 +1,151 @@
+/* ========== GRID DE CARTAS ========== */
 .cards{
-  /* grid o flex, como tengas; no importa mientras permita overlap */
   display:grid;
-  grid-template-columns: repeat(auto-fit, minmax(420px,1fr));
+  grid-template-columns: repeat(3, 1fr);
   gap:1.5rem;
   padding:2rem;
-  position: relative;   /* base para z-index/overlays */
-  isolation: isolate;   /* evita que filtros se mezclen raro */
+  position: relative;
+  isolation: isolate;
 }
 
+/* ========== TARJETA ========== */
 .card{
-  position: relative;               /* contenedor del overlay */
-  min-height: 82px;                 /* alto del header */
+  position: relative;
+  min-height: 1px;
   background: rgba(15,16,22,.9);
-  border:1px solid rgba(255,255,255,.08);
+  border:5px solid rgba(255,255,255,.08);
   border-radius:12px;
   box-shadow: 0 10px 24px rgba(0,0,0,.5);
-  overflow: visible;                /* 👈 deja salir el overlay */
+  overflow: visible;
 }
 
+/* ========== HEADER (título arriba, botón debajo) ========== */
 .card-header{
-  display:flex; align-items:center; justify-content:space-between;
-  padding:1rem 1.25rem; cursor:pointer; user-select:none;
+  display:flex;
+  flex-direction: column;
+  align-items:center;
+  justify-content:space-between;
+  padding:1rem 1.25rem;
+  cursor:pointer;
+  user-select:none;
 }
-.card-header h2{ margin:0; font-size:1.05rem; color:#ffae00; }
-.arrow{ transition: transform .25s ease; }
-.arrow.open{ transform: rotate(180deg); }
+.card-header h2{
+  margin:0 0 .8rem 0;
+  font-size:1.05rem;
+  color:#ffffff;
+}
 
-/* --- Overlay que “cae”: no afecta layout --- */
-.card-body{
-  position: absolute;
-  left: -1px; right: -1px;          /* que el overlay iguale el ancho + borde */
-  top: 64px;                        /* altura aprox. del header */
-  z-index: 2;
-  background: rgba(20,22,28,.96);
+/* ========== BOTONES ========== */
+.card-button{
+  --accent: #ffae00;
+  display:inline-flex;
+  align-items:center;
+  gap:.5rem;
+  padding:.5rem .875rem;
   border:1px solid rgba(255,255,255,.12);
-  border-radius: 0 0 12px 12px;
-  padding: 0 1.25rem 1.25rem;
-  color:#ddd; line-height:1.55;
+  border-radius:12px;
+  background: linear-gradient(180deg, rgba(30,32,40,.85), rgba(18,19,25,.85));
+  color:#ddd;
+  font-weight:600;
+  letter-spacing:.2px;
+  box-shadow: 0 6px 16px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.06);
+  transition:
+    transform .15s ease,
+    box-shadow .2s ease,
+    border-color .2s ease,
+    background .2s ease,
+    color .2s ease;
+  cursor: pointer;
+}
+.card-button:hover{
+  border-color: color-mix(in srgb, var(--accent) 45%, rgba(255,255,255,.12));
+  color:#fff;
+  box-shadow:
+    0 10px 24px rgba(0,0,0,.55),
+    0 0 0 3px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.card-button:focus-visible{
+  outline:none;
+  box-shadow:
+    0 0 0 3px color-mix(in srgb, var(--accent) 28%, transparent),
+    0 12px 28px rgba(0,0,0,.55);
+}
+.card-button:active{ transform: translateY(1px); }
+.card-button:disabled{ opacity:.6; cursor:not-allowed; filter:grayscale(.15); }
 
-  /* animación de despliegue */
-  transform-origin: top;
-  animation: drop-in .28s ease forwards;
-  box-shadow: 0 16px 40px rgba(0,0,0,.65);
+/* Variante principal */
+.card-button--primary{
+  color: var(--accent);
+  border-color: color-mix(in srgb, var(--accent) 35%, rgba(255,255,255,.12));
+  text-shadow: 0 0 8px color-mix(in srgb, var(--accent) 25%, transparent);
 }
 
-/* cuando se cierra, puedes animar si quieres */
-.card:not(.open) .card-body{ animation: drop-out .22s ease forwards; }
+/* Solo ícono (cerrar) */
+.card-button--icon{
+  width:36px;
+  height:36px;
+  padding:0;
+  display:inline-grid;
+  place-items:center;
+  justify-content:center;
+}
 
-@keyframes drop-in{
-  from{ transform: scaleY(0.85); opacity: 0; }
-  to  { transform: scaleY(1);    opacity: 1; }
+/* ========== OVERLAY PANTALLA COMPLETA ========== */
+.veil-enter-from, .veil-leave-to { opacity: 0; }
+.veil-enter-active, .veil-leave-active { transition: opacity .25s ease; }
+
+.fs-overlay{
+  position: fixed; inset: 0; z-index: 9999;
+  display: grid; place-items: center; outline: none;
 }
-@keyframes drop-out{
-  from{ transform: scaleY(1);    opacity: 1; }
-  to  { transform: scaleY(0.85); opacity: 0; }
+.fs-backdrop{
+  position: absolute; inset: 0;
+  background:
+    radial-gradient(1200px 800px at 80% 10%, rgba(255,174,0,.08), transparent 60%),
+    rgba(2,3,6,.78);
+  backdrop-filter: blur(2px);
 }
-.card-body{ max-height: 320px; overflow:auto; }
+.fs-panel{
+  position: relative;
+  width: min(1100px, 92vw);
+  height: min(82vh, 92vh);
+  background: rgba(15,16,22,.96);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:16px;
+  box-shadow:0 30px 80px rgba(0,0,0,.65);
+  display:flex; flex-direction:column;
+  animation: fs-pop .22s ease;
+}
+@keyframes fs-pop{
+  from{ transform: translateY(6px) scale(.98); opacity:.8; }
+  to  { transform: translateY(0)   scale(1);    opacity:1; }
+}
+.fs-header{
+  display:flex; align-items:center; justify-content:space-between;
+  padding:.9rem 1.1rem;
+  border-bottom:1px solid rgba(255,255,255,.08);
+}
+.fs-header h3{
+  margin:0;
+  font-size:1.1rem;
+  color:#ffae00;
+  text-shadow:0 0 8px rgba(17,14,9,.25);
+}
+.fs-content{
+  padding:1rem 1.1rem 1.1rem;
+  overflow:auto;
+  color:#ddd;
+  line-height:1.6;
+}
+
+/* ========== MEDIA (IMAGEN) DENTRO DEL OVERLAY ========== */
+.fs-media{
+  max-width: 520px;      /* ajustá aquí si querés más chica/grande */
+  margin: 1rem auto 0;   /* centrada */
+}
+.fs-media img{
+  max-height: 40vh;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}

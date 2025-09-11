@@ -1,8 +1,10 @@
 <template>
   <section class="login page">
     <Help />
+    <SeñalInicialView />
+    <OjoView />
+
     <div class="card">
-      <!-- 👇 icono encima del título -->
       <el-icon size="72" class="login-icon">
         <Suitcase />
       </el-icon>
@@ -32,6 +34,8 @@ import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { Suitcase } from '@element-plus/icons-vue'
 import Help from '@/components/help/HelpEveryone.vue'
+import OjoView from '@/components/help/OjoView.vue'
+import SeñalInicialView from '@/components/help/SeñalInicialView.vue'
 
 const username = ref('')
 const password = ref('')

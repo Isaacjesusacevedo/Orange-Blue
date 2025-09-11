@@ -20,14 +20,10 @@
 
 <script setup lang="ts">
 import { computed } from 'vue'
-// importa el asset desde src (nota: ruta RELATIVA al .vue actual)
 import pdfBundled from '../components/logos/CLASIFICADO.pdf'
-
-// si además quieres permitir que el padre pase un src, lo priorizas:
 const props = defineProps<{ src?: string }>()
 const finalSrc = computed(() => (props.src && props.src.trim()) ? props.src : pdfBundled)
 </script>
-
 
 <style scoped>
 .doc-shell{

@@ -47,6 +47,11 @@
   letter-spacing: .2px;
   text-align: center;
 }
+.status-badge .message{
+  margin:.35rem 0 0 0;
+  color:#ffb36a;
+  text-shadow: 0 0 8px rgba(255,106,0,.25);
+}
 
 /* ====== Rieles laterales ====== */
 .rail{
@@ -115,7 +120,7 @@
   place-items: center;
   box-shadow:
     inset 0 0 0 2px #0a0b10,
-    0 0 24px rgba(255,106,0,.09);
+    0 0 24px rgba(255, 106, 0, 0.09);
   position: relative;
 }
 .center-panel::after{
@@ -123,7 +128,7 @@
   content:"";
   position:absolute;
   inset: -2px;
-  border: 2px solid rgba(255,106,0,.08);
+  border: 2px solid rgba(158, 158, 158, 0.08);
   mix-blend-mode: screen;
   animation: pulse 3.8s ease-in-out infinite alternate;
   pointer-events: none;
@@ -132,14 +137,81 @@
   0%{ opacity:.25; filter: blur(0px); }
   100%{ opacity:.6; filter: blur(1.2px); }
 }
+
+/* ====== Video dentro del panel ====== */
+.center-panel video{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;       /* usa 'contain' si prefieres sin recorte */
+  border-radius: 4px;
+}
+
+/* ====== Mensaje “RECUERDA” ====== */
 .remember{
+  position: absolute;
+  inset: auto 0 8%;        /* centrado horizontal, 8% desde el fondo */
+  margin: 0 auto;
+  text-align: center;
   color: #dcdcdc;
   font-weight: 700;
   letter-spacing: .02em;
   font-size: clamp(1.15rem, 2.4vw, 1.6rem);
   text-shadow: 0 1px 0 #000, 0 0 18px rgba(255,106,0,.18);
+  padding: .25rem .65rem;
+  pointer-events: none;     /* que no interfiera con el video */
 }
 
+/* ====== Transición 'fade' para Vue <transition name="fade"> ====== */
+.fade-enter-from,
+.fade-leave-to{
+  opacity: 0;
+  transform: translateY(8px);
+}
+.fade-enter-active,
+.fade-leave-active{
+  transition: opacity .35s ease, transform .35s ease;
+}
+
+/* ====== Glitch sutil aplicado al "remember" ====== */
+.glitch {
+  position: relative;
+  display: inline-block;
+}
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  inset: 0;
+  opacity: .75;
+  pointer-events: none;
+}
+.glitch::before {
+  color: #00ffff;                 /* eco cian */
+  mix-blend-mode: screen;
+  animation: glitchShift 2.1s steps(20, end) infinite;
+}
+.glitch::after {
+  color: #ff00ff;                 /* eco magenta */
+  mix-blend-mode: screen;
+  animation: glitchShift 2.7s steps(22, end) infinite;
+}
+
+/* Pequeños desplazamientos erráticos */
+@keyframes glitchShift {
+  0%   { transform: translate(0, 0); }
+  10%  { transform: translate(-1px, 0); }
+  20%  { transform: translate(1px, 1px); }
+  30%  { transform: translate(-1px, -1px); }
+  40%  { transform: translate(1px, 0); }
+  50%  { transform: translate(0, 1px); }
+  60%  { transform: translate(-1px, 0); }
+  70%  { transform: translate(1px, -1px); }
+  80%  { transform: translate(0, 1px); }
+  90%  { transform: translate(-1px, 0); }
+  100% { transform: translate(0, 0); }
+}
+
+/* ====== Responsive ====== */
 @media (max-width: 915px){
   .outer-frame{
     grid-template-columns: 1fr;
@@ -152,6 +224,7 @@
   .center-panel{ width: min(86vmin, 680px); }
   .status-badge{ position: static; margin-bottom: .4rem; justify-self: start; }
 }
+
 .slot__btn{
   appearance: none;      /* quita estilo nativo */
   border: 1px solid rgba(255,255,255,.08);
@@ -165,7 +238,6 @@
     0 10px 22px rgba(0,0,0,.55);
   transition: transform .12s ease, box-shadow .12s ease, border-color .12s ease;
 }
-
 .slot__btn:hover{
   transform: translateY(-1px);
   border-color: rgba(255,140,80,.35);
@@ -175,15 +247,22 @@
     0 14px 28px rgba(0,0,0,.6);
 }
 
-/* Icono de Element Plus: tamaño y color “espectral” */
 .el-icon-xl{
   font-size: 32px;       /* o 55px si lo prefieres grande */
   color: #7c3aed;        /* púrpura */
   filter: drop-shadow(0 0 6px rgba(124,58,237,.45));
 }
 
-/* Si tienes un <a> en algún otro sitio del riel, neutralízalo */
 .rail a{
   text-decoration: none;
   color: inherit;
 }
+.fade-video-enter-from,
+.fade-video-leave-to { opacity: 0; }
+.fade-video-enter-active,
+.fade-video-leave-active { transition: opacity .45s ease; }
+
+.fade-remember-enter-from,
+.fade-remember-leave-to { opacity: 0; transform: translateY(8px); }
+.fade-remember-enter-active,
+.fade-remember-leave-active { transition: opacity .35s ease, transform .35s ease; }
