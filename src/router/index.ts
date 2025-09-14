@@ -50,14 +50,24 @@ const router = createRouter({
       component: () => import('../views/AlejandriaView.vue'),
       meta: { requiresAuth: true }
     },
+
+    // 👇 Ruta pública para pergaminos (sin requiresAuth)
+    {
+      path: '/pergaminos',
+      name: 'Pergaminos',
+      component: () => import('../components/help/PergaminoView.vue')
+    },
+
     { path: '/:pathMatch(.*)*', redirect: '/login' }
   ]
 })
 
-// 🔒 guardia del umbral
+// 🔒 Guardia del umbral (con whitelist)
 router.beforeEach((to) => {
   const isAuthed = localStorage.getItem('auth.v1') === '1'
-  if (!isAuthed && to.path !== '/login') {
+  const publicNames = new Set(['login', 'Pergaminos']) // 👈 permitidas sin login
+
+  if (!isAuthed && !publicNames.has(to.name as string)) {
     return { name: 'login', query: { next: to.fullPath } }
   }
   if (isAuthed && to.name === 'login') {

@@ -8,7 +8,7 @@
         :style="{ top: m.y+'%', left: m.x+'%' }"
       >
         <a
-          href="https://www.youtube.com/watch?v=Oqd_5sWcSk0"
+          href="https://www.youtube.com/watch?v=aNXmtBJbt3E&t=2s"
           target="_blank"
           rel="noopener"
         >
