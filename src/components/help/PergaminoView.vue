@@ -14,9 +14,6 @@
         <el-carousel-item v-for="(p,i) in pergaminos" :key="p.alt">
           <div class="perga-center">
             <img class="perga-img" :src="p.src" :alt="p.alt" @click="openPreview(i)" />
-            <button class="zoom" @click="openPreview(i)" aria-label="Ampliar">
-              <el-icon><Search /></el-icon>
-            </button>
           </div>
         </el-carousel-item>
       </el-carousel>
@@ -29,8 +26,6 @@
         <el-icon><ArrowRight /></el-icon>
       </button>
     </div>
-
-    <!-- Visor a pantalla completa -->
     <el-image-viewer
       v-if="viewerVisible"
       :url-list="srcList"
@@ -45,7 +40,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { ElCarousel, ElImageViewer } from 'element-plus'
-import { ArrowLeft, ArrowRight, Search } from '@element-plus/icons-vue'
+import { ArrowLeft, ArrowRight, } from '@element-plus/icons-vue'
 
 const carousel = ref<InstanceType<typeof ElCarousel> | null>(null)
 const activeIndex = ref(0)
@@ -75,10 +70,9 @@ const prev = () => carousel.value?.prev()
   padding-inline: clamp(8px, 2vw, 24px);
 }
 
-/* 2) Wrapper con ancho útil (centrado) */
 .perga-wrap{
   position: relative;
-  width: min(96vw, 1200px);   /* 👈 evita “franja” angosta */
+  width: min(96vw, 1200px);
   margin: 0 auto;
 }
 
