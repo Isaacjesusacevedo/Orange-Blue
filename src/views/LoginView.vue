@@ -3,7 +3,6 @@
     <Help />
     <SeñalInicialView />
     <OjoView />
-
     <div class="card">
       <el-icon size="72" class="login-icon">
         <Suitcase />
