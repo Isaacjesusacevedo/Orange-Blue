@@ -21,12 +21,13 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
-          cache: 'npm'
+          node-version: 20
+          cache: npm
       - run: npm ci
       - run: |
           npm run build
-          cp dist/index.html dist/404.html   # si usas Vue Router history
+          # Solo si usas createWebHistory
+          cp dist/index.html dist/404.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: ./dist
